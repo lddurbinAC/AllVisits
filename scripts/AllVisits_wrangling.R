@@ -52,6 +52,7 @@ AllVisits <- bind_rows(
   AandR_enquiries,
   AandR_sessions,
   Boopsie,
+  Solus,
   community_outreach,
   HeritageSocial,
   HeritageImages,

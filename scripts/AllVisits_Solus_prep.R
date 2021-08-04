@@ -7,10 +7,9 @@ Solus_prep <- function(spreadsheet) {
     filter(str_detect(usage_over_time, "[:digit:]")) %>% 
     mutate(date = excel_numeric_to_date(as.double(usage_over_time)), .keep = "unused") %>% 
     filter(date > ymd("2021-06-30")) %>% 
-    mutate(Month = format(date, "%b"), Year = format(date, "%Y"), .keep = "unused") %>% 
-    select(Month, Year, Metric = launches)
+    mutate(Month = format(date, "%b"), Year = format(date, "%Y"), Metric = as.double(launches), .keep = "unused") %>% 
+    select(-devices)
 }
   
 Solus <- lapply(list.files("data/raw/Solus", full.names = TRUE), Solus_prep) %>% 
   bind_rows()
-
