@@ -4,21 +4,5 @@
 # But not these files...
 !.gitignore
 !AllVisits.Rproj
-!scripts/AdHocAnalysis.R
-!scripts/AllVisits_AandR_prep.R
-!scripts/AllVisits_Boopsie_prep.R
-!scripts/AllVisits_DX_prep.R
-!scripts/AllVisits_DataValidation.R
-!scripts/AllVisits_HeritageSocial_prep.R
-!scripts/AllVisits_Kura_ManuscriptsOnline_HeritageImages_prep.R
-!scripts/AllVisits_LibraryConnect_prep.R
-!scripts/AllVisits_Overdrive_prep.R
-!scripts/AllVisits_RegionalSocial_prep.R
-!scripts/AllVisits_SubscriptionDatabases_checking.R
-!scripts/AllVisits_SubscriptionDatabases_prep.R
-!scripts/AllVisits_copy_files.R
-!scripts/AllVisits_wrangling.R
-!scripts/definitions.R
-!scripts/functions.R
-!scripts/listFiles.R
-.Rproj.user
+!scripts/
+

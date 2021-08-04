@@ -16,8 +16,9 @@ library("lubridate")
 # Record and Archives (enquiries and website sessions)
 source("scripts/AllVisits_AandR_prep.R")
 
-# Library app
+# Library app (old and new)
 source("scripts/AllVisits_Boopsie_prep.R")
+source("scripts/AllVisits_Solus_prep.R")
 
 # Outreach participation (community libraries, mobile and access, research and heritage)
 source("scripts/AllVisits_DX_prep.R")
