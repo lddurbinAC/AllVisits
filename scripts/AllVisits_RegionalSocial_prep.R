@@ -17,7 +17,7 @@ assign_variable <- function(platform_pattern) {
 }
 
 # List all regional social data files
-files <- list.files(c("data/raw/RegionalSocial2019", "data/raw/RegionalSocial2020", "data/raw/RegionalSocial2021"), full.names = TRUE)
+files <- list.files("data/raw/RegionalSocial", full.names = TRUE)
 
 # Load and clean all regional social data files
 RegionalSocial <- lapply(files, RegionalSocialPrep) %>% 
