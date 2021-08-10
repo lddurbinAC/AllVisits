@@ -1,7 +1,8 @@
-source("AllVisits_wrangling.R")
+source("scripts/AllVisits_wrangling.R")
 
 metadata <- read_excel("data/AllVisits_data_sources.xlsx", sheet = 2, col_types = "text") %>% 
-  select(1:4)
+  select(1:4) %>% 
+  filter(ID != "21" & ID != "22")
 
 CCS <- AllVisits %>% 
   filter(date >= ymd("2018-07-01")) %>% 
