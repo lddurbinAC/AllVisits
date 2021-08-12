@@ -52,7 +52,6 @@ AllVisits <- bind_rows(
   AandR_enquiries,
   AandR_sessions,
   Boopsie,
-  Solus,
   community_outreach,
   HeritageSocial,
   HeritageImages,
@@ -69,6 +68,7 @@ AllVisits <- bind_rows(
   RegionalYouTube,
   research_outreach,
   Subscriptions,
+  Solus,
   .id = "id") %>% 
   mutate(date = as.Date(paste(Month, "01", Year, sep="/"), format="%b/%d/%Y")) %>% 
   select(-Month, -Year, metric = Metric) %>% 
