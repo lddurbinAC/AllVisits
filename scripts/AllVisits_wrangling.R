@@ -78,10 +78,6 @@ AllVisits <- bind_rows(
 # Change infinite values to zero
 AllVisits[AllVisits == Inf] <- 0
 
-#Archive the old data output and export the new data frame to a .csv file
-# file.rename("data/processed/AllVisits.csv", paste("data/processed/archived/AllVisits_", as.Date(file.info("data/processed/AllVisits.csv")$ctime), ".csv", sep=""))
-# 
-# AllVisits %>%
-#   write.csv("data/processed/AllVisits.csv", na="")
+source(here::here("scripts/exports.R"))
 
 # *****************************************************************************

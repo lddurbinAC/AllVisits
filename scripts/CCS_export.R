@@ -1,6 +1,4 @@
-source("scripts/AllVisits_wrangling.R")
-
-metadata <- read_excel("data/AllVisits_data_sources.xlsx", sheet = 2, col_types = "text") %>% 
+metadata <- read_excel(here::here("data/AllVisits_data_sources.xlsx"), sheet = 2, col_types = "text") %>% 
   select(1:4) %>% 
   filter(ID != "21" & ID != "22")
 
@@ -26,4 +24,4 @@ CCS <- AllVisits %>%
     "Service Name"
     )
 
-xlsx::write.xlsx2(CCS, file = "data/processed/CCS.xlsx", showNA = FALSE)
+writexl::write_xlsx(CCS, path = here::here("data/processed/CCS.xlsx"))
