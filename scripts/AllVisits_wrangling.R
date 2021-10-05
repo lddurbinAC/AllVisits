@@ -2,10 +2,14 @@
 # Setup ----
 
 # Load libraries
-library("tidyverse")
-library("readxl")
-library("janitor")
-library("lubridate")
+library("dplyr", warn.conflicts = FALSE) # A Grammar of Data Manipulation
+library("readr", warn.conflicts = FALSE) 
+library("stringr", warn.conflicts = FALSE) 
+library("tidyr", warn.conflicts = FALSE) 
+library("purrr", warn.conflicts = FALSE) 
+library("readxl", warn.conflicts = FALSE) # Read Excel Files
+library("janitor", warn.conflicts = FALSE) # Simple Tools for Examining and Cleaning Dirty Data
+library("lubridate", warn.conflicts = FALSE) # Make Dealing with Dates a Little Easier
 
 # *****************************************************************************
 
@@ -81,3 +85,6 @@ AllVisits[AllVisits == Inf] <- 0
 source(here::here("scripts/exports.R"))
 
 # *****************************************************************************
+
+
+
