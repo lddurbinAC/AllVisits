@@ -1,6 +1,6 @@
 # Clean and summarise the Solus app data
 Solus_prep <- function(spreadsheet) {
-  read_excel(spreadsheet, range = cell_cols("A:C"), col_names = FALSE) %>% 
+  read_excel(spreadsheet, range = cell_cols("A:C"), col_names = FALSE, sheet = 2) %>% 
     filter(row_number() >= which(...1 == "Usage over time")) %>% 
     row_to_names(1) %>% 
     clean_names() %>% 
