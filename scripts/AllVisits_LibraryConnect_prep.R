@@ -16,4 +16,6 @@ prep_data <- function(x, sheet, skip_rows) {
 LibrariesConnect_old <- map(old_system_data, prep_data, sheet = 2, skip_rows = 3)
 LibrariesConnect_new <- map(new_system_data, prep_data, sheet = 1, skip_rows = 0)
 
-LibraryConnect <- bind_rows(LibrariesConnect_old, LibrariesConnect_new)
+bind_rows(LibrariesConnect_old, LibrariesConnect_new) %>% 
+  mutate(id = 8) %>% 
+  saveRDS(here::here("data/rds/LibraryConnect.rds"))

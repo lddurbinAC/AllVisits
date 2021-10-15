@@ -18,4 +18,6 @@ HeritageSocial_historic <- list.files("data/raw/HistoricHeritageSocial", full.na
 HeritageSocial_recent <- lapply(list.files(c("data/raw/HeritageSocial2020", "data/raw/HeritageSocial2021"), full.names = TRUE), HeritageSocialPrep) %>% bind_rows()
 
 # Combine the FY19 and post-FY19 data
-HeritageSocial <- bind_rows(HeritageSocial_recent, HeritageSocial_historic)
+bind_rows(HeritageSocial_recent, HeritageSocial_historic) %>% 
+  mutate(id = 5) %>% 
+  saveRDS(here::here("data/rds/HeritageSocial.rds"))

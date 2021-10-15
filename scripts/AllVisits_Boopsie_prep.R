@@ -1,12 +1,12 @@
 # Clean and summarise the FY2019 Boopsie data
-Boopsie2019 <- read_excel(list.files("data/raw/Boopsie2019", full.names = TRUE)) %>% 
+Boopsie2019 <- read_excel(list.files(here::here("data/raw/Boopsie2019"), full.names = TRUE)) %>% 
   clean_names() %>% 
   mutate(Month = format(date, "%b"), Year = format(date, "%Y")) %>% 
   group_by(Month, Year) %>% 
   summarise(Metric = sum(daily_unique_users), .groups = "drop")
 
 # Clean and summarise the FY2020 Boopsie data
-Boopsie2020 <- map(list.files("data/raw/Boopsie2020", full.names = TRUE), read_excel, skip = 2, col_names = c("blank", "date", "daily_unique_users")) %>% 
+Boopsie2020 <- map(list.files(here::here("data/raw/Boopsie2020"), full.names = TRUE), read_excel, skip = 2, col_names = c("blank", "date", "daily_unique_users")) %>% 
   bind_rows() %>% 
   filter(is.na(blank), !is.na(across(.cols = 2:3))) %>% 
   mutate(
@@ -17,4 +17,6 @@ Boopsie2020 <- map(list.files("data/raw/Boopsie2020", full.names = TRUE), read_e
   group_by(Month, Year) %>% 
   summarise(Metric = sum(daily_unique_users), .groups = "drop")
 
-Boopsie <- bind_rows(Boopsie2019, Boopsie2020)
+bind_rows(Boopsie2019, Boopsie2020) %>%
+  mutate(id = 3) %>% 
+  saveRDS(here::here("data/rds/Boopsie.rds"))

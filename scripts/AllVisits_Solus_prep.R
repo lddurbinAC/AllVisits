@@ -11,5 +11,7 @@ Solus_prep <- function(spreadsheet) {
     select(-devices)
 }
   
-Solus <- lapply(list.files("data/raw/Solus", full.names = TRUE), Solus_prep) %>% 
-  bind_rows()
+lapply(list.files("data/raw/Solus", full.names = TRUE), Solus_prep) %>% 
+  bind_rows() %>% 
+  mutate(id = 20) %>% 
+  saveRDS(here::here("data/rds/Solus.rds"))
