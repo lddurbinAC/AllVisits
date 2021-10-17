@@ -2,7 +2,7 @@ metadata <- read_excel(here::here("data/AllVisits_data_sources.xlsx"), sheet = 2
   select(1:4) %>% 
   filter(ID != "21" & ID != "22")
 
-CCS <- AllVisits %>% 
+CCS <- readRDS(here::here("data/processed/AllVisits.rds")) %>% 
   filter(date >= ymd("2018-07-01")) %>% 
   arrange(date) %>% 
   mutate(
