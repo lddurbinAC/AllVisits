@@ -1,21 +1,12 @@
-# *****************************************************************************
-# Setup ----
-
 # Load libraries
-library("dplyr", warn.conflicts = FALSE) # A Grammar of Data Manipulation
-library("readr", warn.conflicts = FALSE) 
-library("stringr", warn.conflicts = FALSE) 
-library("tidyr", warn.conflicts = FALSE) 
-library("purrr", warn.conflicts = FALSE) 
-library("readxl", warn.conflicts = FALSE) # Read Excel Files
-library("janitor", warn.conflicts = FALSE) # Simple Tools for Examining and Cleaning Dirty Data
-library("lubridate", warn.conflicts = FALSE) # Make Dealing with Dates a Little Easier
-
-# *****************************************************************************
-
-
-# *****************************************************************************
-# Load and prep data ---- 
+library(dplyr, warn.conflicts = FALSE) # A Grammar of Data Manipulation
+library(readr, warn.conflicts = FALSE) 
+library(stringr, warn.conflicts = FALSE) 
+library(tidyr, warn.conflicts = FALSE) 
+library(purrr, warn.conflicts = FALSE) 
+library(readxl, warn.conflicts = FALSE) # Read Excel Files
+library(janitor, warn.conflicts = FALSE) # Simple Tools for Examining and Cleaning Dirty Data
+library(lubridate, warn.conflicts = FALSE) # Make Dealing with Dates a Little Easier
 
 # Record and Archives (enquiries and website sessions)
 source("scripts/AllVisits_AandR_prep.R")
@@ -45,35 +36,10 @@ source("scripts/AllVisits_RegionalSocial_prep.R")
 # Subscription databases sessions
 source("scripts/AllVisits_SubscriptionDatabases_prep.R")
 
-# *****************************************************************************
-
-
-# *****************************************************************************
-# Create and save output file ---- 
-
 # Create one data frame for everything, assign IDs to each service, join with categories, add date, replace NAs with 0, filter out current month
-AllVisits <- bind_rows(
-  AandR_enquiries,
-  AandR_sessions,
-  Boopsie,
-  community_outreach,
-  HeritageSocial,
-  HeritageImages,
-  Kura,
-  LibraryConnect,
-  ManuscriptsOnline,
-  mobile_outreach,
-  Overdrive,
-  RegionalBlog,
-  RegionalFacebook,
-  RegionalInstagram,
-  RegionalTwitter,
-  RegionalSoundCloud,
-  RegionalYouTube,
-  research_outreach,
-  Subscriptions,
-  Solus,
-  .id = "id") %>% 
+
+AllVisits <- lapply(list.files(here::here("data/rds"), full.names = TRUE), readRDS) %>% 
+  bind_rows() %>% 
   mutate(date = as.Date(paste(Month, "01", Year, sep="/"), format="%b/%d/%Y")) %>% 
   select(-Month, -Year, metric = Metric) %>% 
   complete(fill = list(Metric = 0)) %>% 
@@ -82,7 +48,6 @@ AllVisits <- bind_rows(
 # Change infinite values to zero
 AllVisits[AllVisits == Inf] <- 0
 
+AllVisits %>% saveRDS(here::here("data/processed/AllVisits.rds"))
+
 source(here::here("scripts/exports.R"))
-
-# *****************************************************************************
-
