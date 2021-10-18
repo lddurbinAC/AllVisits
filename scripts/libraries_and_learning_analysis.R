@@ -5,33 +5,14 @@ library(stringr, warn.conflicts = FALSE)
 library(ggplot2, warn.conflicts = FALSE)
 library(ggtext, warn.conflicts = FALSE)
 library(purrr, warn.conflicts = FALSE)
+library(lubridate, warn.conflicts = FALSE)
 
 plot <- function(service_name, libraries_and_learning) {
   data <- libraries_and_learning %>% filter(service_name == {{service_name}})
   
-  level4_1 <- annotate("rect", xmin = as.Date("2020-03-26"), xmax = as.Date("2020-04-27"), ymin = 0, ymax = max(data$metric), fill = "#a93226", alpha = .3)
-  level3_1 <- annotate("rect", xmin = as.Date("2020-04-28"), xmax = as.Date("2020-05-13"), ymin = 0, ymax = max(data$metric), fill = "#ff9f33", alpha = .3)
-  level2_1 <- annotate("rect", xmin = as.Date("2020-05-14"), xmax = as.Date("2020-06-08"), ymin = 0, ymax = max(data$metric), fill = "#979a9a", alpha = .3)
-  level3_2 <- annotate("rect", xmin = as.Date("2020-08-12"), xmax = as.Date("2020-08-30"), ymin = 0, ymax = max(data$metric), fill = "#ff9f33", alpha = .3)
-  level2_2 <- annotate("rect", xmin = as.Date("2020-08-31"), xmax = as.Date("2020-10-07"), ymin = 0, ymax = max(data$metric), fill = "#979a9a", alpha = .3)
-  level3_3 <- annotate("rect", xmin = as.Date("2021-02-14"), xmax = as.Date("2021-02-17"), ymin = 0, ymax = max(data$metric), fill = "#ff9f33", alpha = .3)
-  level2_3 <- annotate("rect", xmin = as.Date("2021-02-17"), xmax = as.Date("2021-02-22"), ymin = 0, ymax = max(data$metric), fill = "#979a9a", alpha = .3)
-  level3_4 <- annotate("rect", xmin = as.Date("2021-02-28"), xmax = as.Date("2021-03-07"), ymin = 0, ymax = max(data$metric), fill = "#ff9f33", alpha = .3)
-  level2_4 <- annotate("rect", xmin = as.Date("2021-03-08"), xmax = as.Date("2021-03-12"), ymin = 0, ymax = max(data$metric), fill = "#979a9a", alpha = .3)
-  level4_2 <- annotate("rect", xmin = as.Date("2021-08-17"), xmax = as.Date("2021-09-21"), ymin = 0, ymax = max(data$metric), fill = "#a93226", alpha = .3)
-  
   p <- data %>% 
     ggplot(mapping = aes(x = date, y = metric)) +
-    level4_1 +
-    level3_1 +
-    level2_1 +
-    level3_2 +
-    level2_2 +
-    level3_3 +
-    level2_3 +
-    level3_4 +
-    level2_4 +
-    level4_2 +
+    annotate("rect", xmin = as.Date(int_start(lockdown_periods)), xmax = as.Date(int_end(lockdown_periods)), ymin = 0, ymax = max(data$metric), fill = lockdown_colours, alpha = .3) +
     geom_line(size = 1.5, color = "blue") +
     geom_point(size = 2) +
     ggthemes::theme_fivethirtyeight() +
@@ -62,6 +43,21 @@ libraries_and_learning <- readRDS(here::here("data/processed/AllVisits.rds")) %>
     TRUE ~ metric_name
   )) %>% 
   filter(delivery_team %in% c("Content Development & Engagement") & date >= as.Date("2020-01-01"))
+
+lockdown_periods <- c(
+  interval(ymd("2020-03-26"), ymd("2020-04-27")),
+  interval(ymd("2020-04-28"), ymd("2020-05-13")),
+  interval(ymd("2020-05-14"), ymd("2020-06-08")),
+  interval(ymd("2020-08-12"), ymd("2020-08-30")),
+  interval(ymd("2020-08-31"), ymd("2020-10-07")),
+  interval(ymd("2021-02-14"), ymd("2021-02-17")),
+  interval(ymd("2021-02-17"), ymd("2021-02-22")),
+  interval(ymd("2021-02-28"), ymd("2021-03-07")),
+  interval(ymd("2021-03-08"), ymd("2021-03-12")),
+  interval(ymd("2021-08-17"), ymd("2021-09-21"))
+)
+
+lockdown_colours <- c("#a93226", "#ff9f33", "#979a9a", "#ff9f33", "#979a9a", "#ff9f33", "#979a9a", "#ff9f33","#979a9a", "#a93226")
 
 service_names <- libraries_and_learning %>% distinct(service_name) %>% pull()
 walk(service_names, plot, libraries_and_learning)
