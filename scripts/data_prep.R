@@ -15,7 +15,7 @@ walk(data_prep_scripts, source)
 # Create one data frame for everything, add date, replace NAs with 0, filter out current month
 AllVisits <- lapply(list.files(here::here("data/rds"), full.names = TRUE), readRDS) %>% 
   bind_rows() %>% 
-  mutate(date = as.Date(paste(Month, "01", Year, sep="/"), format="%b/%d/%Y")) %>% 
+  mutate(date = as.Date(paste(Month, "01", Year, sep="/"), format="%b/%d/%Y"), id = as.character(id)) %>% 
   select(-Month, -Year, metric = Metric) %>% 
   complete(fill = list(Metric = 0)) %>% 
   filter(date != as.Date(format(Sys.Date(), paste("%Y-%m", "01", sep="-"))))
