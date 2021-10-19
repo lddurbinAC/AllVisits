@@ -4,7 +4,6 @@ library(janitor, warn.conflicts = FALSE)
 library(stringr, warn.conflicts = FALSE)
 library(ggplot2, warn.conflicts = FALSE)
 library(ggtext, warn.conflicts = FALSE)
-library(purrr, warn.conflicts = FALSE)
 library(lubridate, warn.conflicts = FALSE)
 
 plot <- function(service_name, libraries_and_learning) {
@@ -60,4 +59,4 @@ lockdown_periods <- c(
 lockdown_colours <- c("#a93226", "#ff9f33", "#979a9a", "#ff9f33", "#979a9a", "#ff9f33", "#979a9a", "#ff9f33","#979a9a", "#a93226")
 
 service_names <- libraries_and_learning %>% distinct(service_name) %>% pull()
-walk(service_names, plot, libraries_and_learning)
+purrr::walk(service_names, plot, libraries_and_learning)
