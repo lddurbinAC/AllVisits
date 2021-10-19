@@ -23,7 +23,7 @@ plot <- function(service_name, libraries_and_learning) {
     ) +
     theme(plot.title = element_markdown(lineheight = 1.1))
   
-  ggsave(filename = paste0("plots/plot_", data$id[1], ".png"), device = "png", plot = p, width = 10)
+  ggsave(filename = paste0("plots/", data$filename, ".png"), device = "png", plot = p, width = 10)
 }
 
 metadata <- read_excel(here::here("data/AllVisits_data_sources.xlsx"), sheet = 2) %>% 
@@ -42,6 +42,7 @@ libraries_and_learning <- readRDS(here::here("data/processed/AllVisits.rds")) %>
     service_name == "Libraries App" ~ "Daily users or launches",
     TRUE ~ metric_name
   )) %>% 
+  mutate(filename = str_replace_all(service_name, " ", "_") %>% str_replace_all("&|\\(|\\)", "") %>% str_to_lower()) %>% 
   filter(date >= as.Date("2020-01-01"))
 
 lockdown_periods <- c(
