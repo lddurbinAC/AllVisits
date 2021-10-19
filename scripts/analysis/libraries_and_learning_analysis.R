@@ -16,7 +16,7 @@ plot <- function(service_name, libraries_and_learning) {
     geom_point(size = 2) +
     ggthemes::theme_fivethirtyeight() +
     theme(legend.position = "none", panel.grid.major.x = element_blank()) +
-    scale_x_date(date_labels = paste0("%b", " '", "%y"), breaks = "2 months") +
+    scale_x_date(date_labels = paste0("%b", " '", "%y"), breaks = "2 months", limits = c(ymd("2020-01-01"), ymd("2021-09-30"))) +
     scale_y_continuous(labels = scales::label_comma()) +
     labs(
       title = paste0(data$service_name, " ", str_to_lower(data$metric_name), " since January 2020<br><span style='color:#a93226'>Alert Level 4</span>, <span style='color:#ff9f33'>Alert Level 3</span>, and <span style='color:#979a9a'>Alert Level 2</span> highlighted")
@@ -33,6 +33,7 @@ metadata <- read_excel(here::here("data/AllVisits_data_sources.xlsx"), sheet = 2
   
 libraries_and_learning <- readRDS(here::here("data/processed/AllVisits.rds")) %>% 
   left_join(metadata, by = "id") %>% 
+  mutate(date = date + days(14)) %>% 
   mutate(service_name = case_when(
     str_detect(service_name, "mobile app") ~ "Libraries App",
     service_name == "Facebook" & delivery_team == "Heritage Engagement" ~ "Facebook (Heritage)",
