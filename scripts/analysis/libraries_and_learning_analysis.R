@@ -35,13 +35,14 @@ libraries_and_learning <- readRDS(here::here("data/processed/AllVisits.rds")) %>
   left_join(metadata, by = "id") %>% 
   mutate(service_name = case_when(
     str_detect(service_name, "mobile app") ~ "Libraries App",
+    service_name == "Facebook" & delivery_team == "Heritage Engagement" ~ "Facebook (Heritage)",
     TRUE ~ service_name
   )) %>% 
   mutate(metric_name = case_when(
     service_name == "Libraries App" ~ "Daily users or launches",
     TRUE ~ metric_name
   )) %>% 
-  filter(delivery_team %in% c("Content Development & Engagement") & date >= as.Date("2020-01-01"))
+  filter(date >= as.Date("2020-01-01"))
 
 lockdown_periods <- c(
   interval(ymd("2020-03-26"), ymd("2020-04-27")),
