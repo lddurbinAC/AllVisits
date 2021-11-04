@@ -30,7 +30,7 @@ metadata <- read_excel(here::here("data/AllVisits_data_sources.xlsx"), sheet = 2
   clean_names() %>% 
   select(-c(metric_definition:data_supplier)) %>% 
   mutate(id = as.character(id))
-  
+
 libraries_and_learning <- readRDS(here::here("data/processed/AllVisits.rds")) %>% 
   left_join(metadata, by = "id") %>% 
   mutate(service_name = case_when(
