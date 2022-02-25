@@ -17,5 +17,5 @@ raw_data %>%
   with_groups(c(team_type, Month, Year), summarise, Metric = sum(participation)) %>% 
   tidyr::complete(Month = Month, nesting(team_type, Year), fill = list(Metric = 0)) %>% 
   mutate(id = ifelse(team_type == "Libraries", 4, 18), Year = as.character(Year), .keep = "unused") %>% 
-  filter(ymd(paste(Year, Month, "01", sep = "-")) > ymd("2021-06-30")) %>% 
+  filter(ymd(paste(Year, Month, "01", sep = "-")) > ymd("2021-06-30") & ymd(paste(Year, Month, "01", sep = "-")) < floor_date(today(), "months")) %>% 
   saveRDS(here::here("data/rds/Outreach.rds"))
